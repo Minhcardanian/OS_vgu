@@ -25,7 +25,7 @@ sudo insmod simple.ko
 dmesg | tail -n 5
 sudo rmmod simple
 
-
+---
 ## 2. proc_jiffies — Display System Jiffies
 Description
 
@@ -36,7 +36,7 @@ make
 sudo insmod proc_jiffies.ko
 cat /proc/jiffies
 sudo rmmod proc_jiffies
-
+--- 
 ## 3. proc_seconds — Track Module Lifetime
 Description
 
@@ -47,7 +47,7 @@ sudo insmod proc_seconds.ko
 sleep 5
 cat /proc/seconds
 sudo rmmod proc_seconds
-
+---
 BUILD ENV
 | Component      | Version               |
 | -------------- | --------------------- |
