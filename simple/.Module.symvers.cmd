@@ -1,0 +1,1 @@
+savedcmd_/home/minhgiga/OS_assignment/simple/Module.symvers :=  scripts/mod/modpost -M -m -a      -o /home/minhgiga/OS_assignment/simple/Module.symvers -T /home/minhgiga/OS_assignment/simple/modules.order -i Module.symvers -e 

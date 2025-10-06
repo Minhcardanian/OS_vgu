@@ -1,0 +1,18 @@
+# Ignore all build artifacts
+*.o
+*.ko
+*.mod
+*.mod.c
+*.mod.o
+*.order
+*.symvers
+*.tmp_versions
+*.cmd
+Module.symvers
+modules.order
+*.log
+*.swp
+
+# Editor and OS junk
+*~
+.DS_Store

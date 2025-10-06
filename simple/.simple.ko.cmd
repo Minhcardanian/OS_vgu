@@ -1,0 +1,1 @@
+savedcmd_/home/minhgiga/OS_assignment/simple/simple.ko := ld -r -m elf_x86_64 -z noexecstack --no-warn-rwx-segments --build-id=sha1  -T scripts/module.lds -o /home/minhgiga/OS_assignment/simple/simple.ko /home/minhgiga/OS_assignment/simple/simple.o /home/minhgiga/OS_assignment/simple/simple.mod.o
