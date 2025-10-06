@@ -1,0 +1,30 @@
+# Ignore build output and intermediate files
+*.o
+*.ko
+*.mod.c
+*.mod
+*.order
+*.symvers
+*.cmd
+modules.order
+Module.symvers
+
+# Backup and temporary files
+*~
+*.swp
+*.swo
+*.bak
+
+# Editor configs / metadata
+.vscode/
+.idea/
+.DS_Store
+
+# Log files
+*.log
+
+# Kernel build directories
+/Module.symvers
+/modules.order
+/tmp/
+build/
