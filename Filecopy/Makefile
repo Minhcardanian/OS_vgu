@@ -1,11 +1,12 @@
-obj-m += simple.o
+all: 
+	@echo "Compiling  FileCopy"
+	gcc -Wall -o FileCopy filecopy.c
 
-all:
-        make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+run:
+	./FileCopy
 
-clean:
-        make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
-
+clean: 
+	rm -f FileCopy
 
 
 
