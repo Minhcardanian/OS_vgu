@@ -1,0 +1,4 @@
+Hello, this is a test file.
+We are checking the FileCopy program (Exercise 2.24).
+Line 3: Copy successful if you can read this!
+Line 4: End of file.
