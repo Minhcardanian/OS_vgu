@@ -1,1 +1,0 @@
-savedcmd_/home/minhgiga/OS_assignment/proc_seconds/proc_seconds.ko := ld -r -m elf_x86_64 -z noexecstack --no-warn-rwx-segments --build-id=sha1  -T scripts/module.lds -o /home/minhgiga/OS_assignment/proc_seconds/proc_seconds.ko /home/minhgiga/OS_assignment/proc_seconds/proc_seconds.o /home/minhgiga/OS_assignment/proc_seconds/proc_seconds.mod.o

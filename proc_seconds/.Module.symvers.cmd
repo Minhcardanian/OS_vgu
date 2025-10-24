@@ -1,1 +1,0 @@
-savedcmd_/home/minhgiga/OS_assignment/proc_seconds/Module.symvers :=  scripts/mod/modpost -M -m -a      -o /home/minhgiga/OS_assignment/proc_seconds/Module.symvers -T /home/minhgiga/OS_assignment/proc_seconds/modules.order -i Module.symvers -e 

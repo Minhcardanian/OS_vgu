@@ -1,1 +1,0 @@
-savedcmd_/home/minhgiga/OS_assignment/proc_seconds/proc_seconds.mod := printf '%s\n'   proc_seconds.o | awk '!x[$$0]++ { print("/home/minhgiga/OS_assignment/proc_seconds/"$$0) }' > /home/minhgiga/OS_assignment/proc_seconds/proc_seconds.mod

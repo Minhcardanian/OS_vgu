@@ -1,1 +1,0 @@
-savedcmd_/home/minhgiga/OS_assignment/simple/simple.mod := printf '%s\n'   simple.o | awk '!x[$$0]++ { print("/home/minhgiga/OS_assignment/simple/"$$0) }' > /home/minhgiga/OS_assignment/simple/simple.mod
