@@ -1,4 +1,4 @@
-obj-m += mod.o
+obj-m += pid_mod.o
 KDIR := /lib/modules/$(shell uname -r)/build
 PWD  := $(shell pwd)
 
