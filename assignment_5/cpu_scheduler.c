@@ -67,7 +67,7 @@ static void reset_runtime(Task *dst, const Task *src, int n) {
     }
 }
 
-/* -------------------- Metrics -------------------- */
+/* -------------------- Output helpers -------------------- */
 
 static void print_metrics(const Task tasks[], int n) {
     double total_wait = 0.0, total_turn = 0.0, total_resp = 0.0;
@@ -99,9 +99,67 @@ static void print_metrics(const Task tasks[], int n) {
     printf("Average response time  = %.2f\n", total_resp / n);
 }
 
+/* Append a summary of this run to output.txt */
+static void log_summary_to_file(const char *algo_name,
+                                const char *input_file,
+                                const Task tasks[],
+                                int n)
+{
+    FILE *fp = fopen("output.txt", "a");
+    if (!fp) {
+        perror("fopen output.txt");
+        return;
+    }
+
+    double total_wait = 0.0, total_turn = 0.0, total_resp = 0.0;
+
+    for (int i = 0; i < n; i++) {
+        int turnaround = tasks[i].completion;
+        int waiting    = turnaround - tasks[i].burst;
+        int response   = (tasks[i].first_start < 0) ? 0 : tasks[i].first_start;
+
+        total_wait += waiting;
+        total_turn += turnaround;
+        total_resp += response;
+    }
+
+    double avg_wait = total_wait / n;
+    double avg_turn = total_turn / n;
+    double avg_resp = total_resp / n;
+
+    fprintf(fp, "==============================\n");
+    fprintf(fp, "Algorithm : %s\n", algo_name);
+    fprintf(fp, "Input file: %s\n", input_file);
+    fprintf(fp, "Number of tasks: %d\n\n", n);
+
+    fprintf(fp, "Task  Burst  Start  Complete  Waiting  Turnaround  Response\n");
+    fprintf(fp, "-------------------------------------------------------------------\n");
+
+    for (int i = 0; i < n; i++) {
+        int turnaround = tasks[i].completion;
+        int waiting    = turnaround - tasks[i].burst;
+        int response   = (tasks[i].first_start < 0) ? 0 : tasks[i].first_start;
+
+        fprintf(fp, "%-4s  %5d  %5d  %8d  %7d  %10d  %8d\n",
+                tasks[i].name,
+                tasks[i].burst,
+                response,
+                tasks[i].completion,
+                waiting,
+                turnaround,
+                response);
+    }
+
+    fprintf(fp, "\nAverage waiting time   = %.2f\n", avg_wait);
+    fprintf(fp, "Average turnaround time= %.2f\n", avg_turn);
+    fprintf(fp, "Average response time  = %.2f\n\n", avg_resp);
+
+    fclose(fp);
+}
+
 /* -------------------- FCFS -------------------- */
 
-static void run_fcfs(const Task *orig, int n) {
+static void run_fcfs(const Task *orig, int n, const char *input_file) {
     Task t[MAX_TASKS];
     reset_runtime(t, orig, n);
 
@@ -121,18 +179,19 @@ static void run_fcfs(const Task *orig, int n) {
     }
 
     print_metrics(t, n);
+    log_summary_to_file("FCFS", input_file, t, n);
 }
 
 /* -------------------- SJF (non-preemptive) -------------------- */
 
-static void run_sjf(const Task *orig, int n) {
+static void run_sjf(const Task *orig, int n, const char *input_file) {
     Task t[MAX_TASKS];
     reset_runtime(t, orig, n);
 
     Task sorted[MAX_TASKS];
     int used[MAX_TASKS] = {0};
 
-    /* selection sort by burst time */
+    /* selection sort by burst time (ascending) */
     for (int i = 0; i < n; i++) {
         int best = -1;
         for (int j = 0; j < n; j++) {
@@ -160,19 +219,20 @@ static void run_sjf(const Task *orig, int n) {
     }
 
     print_metrics(sorted, n);
+    log_summary_to_file("SJF", input_file, sorted, n);
 }
 
 /* -------------------- Priority (non-preemptive) -------------------- */
 /* Higher numeric value = higher priority */
 
-static void run_priority(const Task *orig, int n) {
+static void run_priority(const Task *orig, int n, const char *input_file) {
     Task t[MAX_TASKS];
     reset_runtime(t, orig, n);
 
     Task sorted[MAX_TASKS];
     int used[MAX_TASKS] = {0};
 
-    /* sort by priority (desc) */
+    /* sort by priority (descending) */
     for (int i = 0; i < n; i++) {
         int best = -1;
         for (int j = 0; j < n; j++) {
@@ -200,11 +260,12 @@ static void run_priority(const Task *orig, int n) {
     }
 
     print_metrics(sorted, n);
+    log_summary_to_file("PRIORITY", input_file, sorted, n);
 }
 
 /* -------------------- Round Robin -------------------- */
 
-static void run_rr(const Task *orig, int n) {
+static void run_rr(const Task *orig, int n, const char *input_file) {
     Task t[MAX_TASKS];
     reset_runtime(t, orig, n);
 
@@ -252,11 +313,12 @@ static void run_rr(const Task *orig, int n) {
     }
 
     print_metrics(t, n);
+    log_summary_to_file("RR", input_file, t, n);
 }
 
 /* -------------------- Priority + Round Robin -------------------- */
 
-static void run_priority_rr(const Task *orig, int n) {
+static void run_priority_rr(const Task *orig, int n, const char *input_file) {
     Task t[MAX_TASKS];
     reset_runtime(t, orig, n);
 
@@ -327,6 +389,7 @@ static void run_priority_rr(const Task *orig, int n) {
     }
 
     print_metrics(t, n);
+    log_summary_to_file("PRIORITY+RR", input_file, t, n);
 }
 
 /* -------------------- main() -------------------- */
@@ -351,21 +414,21 @@ int main(int argc, char *argv[]) {
     }
 
     if (strcmp(algo, "fcfs") == 0) {
-        run_fcfs(tasks, n);
+        run_fcfs(tasks, n, filename);
     } else if (strcmp(algo, "sjf") == 0) {
-        run_sjf(tasks, n);
+        run_sjf(tasks, n, filename);
     } else if (strcmp(algo, "prio") == 0) {
-        run_priority(tasks, n);
+        run_priority(tasks, n, filename);
     } else if (strcmp(algo, "rr") == 0) {
-        run_rr(tasks, n);
+        run_rr(tasks, n, filename);
     } else if (strcmp(algo, "prio_rr") == 0) {
-        run_priority_rr(tasks, n);
+        run_priority_rr(tasks, n, filename);
     } else { /* all */
-        run_fcfs(tasks, n);
-        run_sjf(tasks, n);
-        run_priority(tasks, n);
-        run_rr(tasks, n);
-        run_priority_rr(tasks, n);
+        run_fcfs(tasks, n, filename);
+        run_sjf(tasks, n, filename);
+        run_priority(tasks, n, filename);
+        run_rr(tasks, n, filename);
+        run_priority_rr(tasks, n, filename);
     }
 
     return 0;

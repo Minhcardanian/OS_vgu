@@ -1,0 +1,85 @@
+==============================
+Algorithm : FCFS
+Input file: schedule.txt
+Number of tasks: 5
+
+Task  Burst  Start  Complete  Waiting  Turnaround  Response
+-------------------------------------------------------------------
+T1       20      0        20        0          20         0
+T2       25     20        45       20          45        20
+T3       25     45        70       45          70        45
+T4       15     70        85       70          85        70
+T5       10     85        95       85          95        85
+
+Average waiting time   = 44.00
+Average turnaround time= 63.00
+Average response time  = 44.00
+
+==============================
+Algorithm : SJF
+Input file: schedule.txt
+Number of tasks: 5
+
+Task  Burst  Start  Complete  Waiting  Turnaround  Response
+-------------------------------------------------------------------
+T5       10      0        10        0          10         0
+T4       15     10        25       10          25        10
+T1       20     25        45       25          45        25
+T2       25     45        70       45          70        45
+T3       25     70        95       70          95        70
+
+Average waiting time   = 30.00
+Average turnaround time= 49.00
+Average response time  = 30.00
+
+==============================
+Algorithm : PRIORITY
+Input file: schedule.txt
+Number of tasks: 5
+
+Task  Burst  Start  Complete  Waiting  Turnaround  Response
+-------------------------------------------------------------------
+T5       10      0        10        0          10         0
+T1       20     10        30       10          30        10
+T3       25     30        55       30          55        30
+T4       15     55        70       55          70        55
+T2       25     70        95       70          95        70
+
+Average waiting time   = 33.00
+Average turnaround time= 52.00
+Average response time  = 33.00
+
+==============================
+Algorithm : RR
+Input file: schedule.txt
+Number of tasks: 5
+
+Task  Burst  Start  Complete  Waiting  Turnaround  Response
+-------------------------------------------------------------------
+T1       20      0        60       40          60         0
+T2       25     10        90       65          90        10
+T3       25     20        95       70          95        20
+T4       15     30        85       70          85        30
+T5       10     40        50       40          50        40
+
+Average waiting time   = 57.00
+Average turnaround time= 76.00
+Average response time  = 20.00
+
+==============================
+Algorithm : PRIORITY+RR
+Input file: schedule.txt
+Number of tasks: 5
+
+Task  Burst  Start  Complete  Waiting  Turnaround  Response
+-------------------------------------------------------------------
+T1       20     10        30       10          30        10
+T2       25     70        95       70          95        70
+T3       25     30        70       45          70        30
+T4       15     40        65       50          65        40
+T5       10      0        10        0          10         0
+
+Average waiting time   = 35.00
+Average turnaround time= 54.00
+Average response time  = 30.00
+
