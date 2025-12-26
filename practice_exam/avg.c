@@ -1,6 +1,3 @@
-// avg.c
-// Usage: ./avg n1 n2 n3 ...
-// Outputs integer-part mean and median (median for even: average of 2 middle values)
 
 #include <pthread.h>
 #include <stdio.h>
@@ -40,10 +37,9 @@ static void *median_worker(void *arg) {
     if (n % 2 == 1) {
         g_median = tmp[n / 2];
     } else {
-        // average of two middle values (integer exact here for given examples)
         int a = tmp[n / 2 - 1];
         int b = tmp[n / 2];
-        g_median = (a + b) / 2; // integer part if needed
+        g_median = (a + b) / 2; 
     }
 
     free(tmp);

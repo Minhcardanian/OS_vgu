@@ -1,6 +1,3 @@
-// dev.c
-// Usage: ./dev n1 n2 n3 ...
-// Outputs integer-part mean absolute deviation and population standard deviation.
 
 #include <pthread.h>
 #include <math.h>
@@ -21,19 +18,16 @@ static int mean_ready = 0;
 static void *mad_worker(void *arg) {
     (void)arg;
 
-    // compute integer-part mean
     long long sum = 0;
     for (int i = 0; i < n; i++) sum += arr[i];
     int mean = (int)(sum / n);
 
-    // publish mean
     pthread_mutex_lock(&mtx);
     g_mean = mean;
     mean_ready = 1;
     pthread_cond_broadcast(&cv);
     pthread_mutex_unlock(&mtx);
 
-    // compute mean absolute deviation (using integer mean)
     long long abs_sum = 0;
     for (int i = 0; i < n; i++) {
         long long d = (long long)arr[i] - (long long)mean;
@@ -47,13 +41,11 @@ static void *mad_worker(void *arg) {
 static void *std_worker(void *arg) {
     (void)arg;
 
-    // wait for mean
     pthread_mutex_lock(&mtx);
     while (!mean_ready) pthread_cond_wait(&cv, &mtx);
     int mean = g_mean;
     pthread_mutex_unlock(&mtx);
 
-    // population variance: (1/n) * sum (xi-mean)^2
     long double sq_sum = 0.0L;
     for (int i = 0; i < n; i++) {
         long double d = (long double)arr[i] - (long double)mean;

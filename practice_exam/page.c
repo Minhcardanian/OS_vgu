@@ -1,8 +1,3 @@
-// page.c
-// Usage: ./page <num_frames> <p1> <p2> ...
-// Outputs:
-// FIFO: <faults>
-// OPT:  <faults>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -49,13 +44,11 @@ static int opt_faults(const int *refs, int rcount, int num_frames) {
 
         faults++;
 
-        // free slot?
         if (filled < num_frames) {
             frames[filled++] = p;
             continue;
         }
 
-        // choose victim: page with farthest next use (or never used again)
         int victim = -1;
         int farthest = -1;
 
@@ -67,7 +60,7 @@ static int opt_faults(const int *refs, int rcount, int num_frames) {
                 if (refs[j] == fp) { next = j; break; }
             }
 
-            if (next == -1) { // never used again => best victim immediately
+            if (next == -1) { 
                 victim = f;
                 farthest = 1e9;
                 break;
